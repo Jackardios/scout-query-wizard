@@ -1,0 +1,64 @@
+{
+    "name": "jackardios/scout-query-wizard",
+    "description": "Laravel Scout Query Wizard",
+    "keywords": [
+        "jackardios",
+        "laravel-scout-query-wizard",
+        "scout-query-builder",
+        "laravel-query-builder",
+        "laravel",
+        "scout",
+        "query",
+        "wizard",
+        "builder",
+        "json",
+        "api",
+        "json api",
+        "query builder"
+    ],
+    "homepage": "https://github.com/jackardios/scout-query-wizard",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/jackardios/scout-query-wizard/issues",
+        "source": "https://github.com/jackardios/scout-query-wizard"
+    },
+    "authors": [
+        {
+            "name": "Salavat Salakhutdinov",
+            "email": "salavat.salahutdinov@gmail.com",
+            "homepage": "https://github.com/jackardios"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "laravel/framework": "^6.20.13|^7.30.4|^8.22.2",
+        "jackardios/laravel-query-wizard": "dev-master",
+        "laravel/scout": "^8.6.1|^9.2.6"
+    },
+    "require-dev": {
+        "ext-json": "*",
+        "laravel/legacy-factories": "^1.0.4",
+        "orchestra/testbench": "^v6.20.1",
+        "phpunit/phpunit": "^9.5",
+        "roave/security-advisories": "dev-latest"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jackardios\\ScoutQueryWizard\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jackardios\\ScoutQueryWizard\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
