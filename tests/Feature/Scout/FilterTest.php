@@ -1,19 +1,18 @@
 <?php
 
-namespace Jackardios\ScoutQueryWizard\Tests\Scout;
+namespace Jackardios\ScoutQueryWizard\Tests\Feature\Scout;
 
 use Jackardios\ScoutQueryWizard\Tests\TestCase;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Jackardios\QueryWizard\Exceptions\InvalidFilterQuery;
 use Jackardios\ScoutQueryWizard\Handlers\Filters\AbstractScoutFilter;
 use Jackardios\ScoutQueryWizard\ScoutQueryWizard;
 use Jackardios\ScoutQueryWizard\Handlers\Filters\FiltersExact;
 use Jackardios\ScoutQueryWizard\Handlers\Filters\FiltersScope;
-use Jackardios\ScoutQueryWizard\Tests\TestClasses\Models\TestModel;
+use Jackardios\ScoutQueryWizard\Tests\App\Models\TestModel;
 
 /**
  * @group scout

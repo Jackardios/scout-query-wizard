@@ -1,6 +1,6 @@
 <?php
 
-namespace Jackardios\ScoutQueryWizard\Tests\Scout;
+namespace Jackardios\ScoutQueryWizard\Tests\Feature\Scout;
 
 use Jackardios\ScoutQueryWizard\Tests\TestCase;
 use Illuminate\Contracts\Pagination\CursorPaginator;
@@ -11,7 +11,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Jackardios\QueryWizard\Exceptions\InvalidAppendQuery;
 use Jackardios\ScoutQueryWizard\ScoutQueryWizard;
-use Jackardios\ScoutQueryWizard\Tests\TestClasses\Models\AppendModel;
+use Jackardios\ScoutQueryWizard\Tests\App\Models\AppendModel;
 
 /**
  * @group scout

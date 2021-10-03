@@ -1,6 +1,6 @@
 <?php
 
-namespace Jackardios\ScoutQueryWizard\Tests\Scout;
+namespace Jackardios\ScoutQueryWizard\Tests\Feature\Scout;
 
 use Illuminate\Database\Eloquent\Builder;
 use Jackardios\ScoutQueryWizard\Tests\TestCase;
@@ -15,8 +15,8 @@ use Jackardios\QueryWizard\Handlers\Eloquent\Includes\IncludedRelationship;
 use ReflectionClass;
 use Jackardios\QueryWizard\Exceptions\InvalidIncludeQuery;
 use Jackardios\ScoutQueryWizard\ScoutQueryWizard;
-use Jackardios\ScoutQueryWizard\Tests\TestClasses\Models\MorphModel;
-use Jackardios\ScoutQueryWizard\Tests\TestClasses\Models\TestModel;
+use Jackardios\ScoutQueryWizard\Tests\App\Models\MorphModel;
+use Jackardios\ScoutQueryWizard\Tests\App\Models\TestModel;
 
 /**
  * @group scout

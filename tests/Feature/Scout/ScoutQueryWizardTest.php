@@ -1,12 +1,12 @@
 <?php
 
-namespace Jackardios\ScoutQueryWizard\Tests\Scout;
+namespace Jackardios\ScoutQueryWizard\Tests\Feature\Scout;
 
 use Illuminate\Support\Facades\Config;
 use Jackardios\ScoutQueryWizard\Tests\TestCase;
 use Jackardios\QueryWizard\Exceptions\InvalidSubject;
 use Jackardios\ScoutQueryWizard\ScoutQueryWizard;
-use Jackardios\ScoutQueryWizard\Tests\TestClasses\Models\SoftDeleteModel;
+use Jackardios\ScoutQueryWizard\Tests\App\Models\SoftDeleteModel;
 
 /**
  * @group scout

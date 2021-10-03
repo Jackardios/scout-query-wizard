@@ -1,6 +1,6 @@
 <?php
 
-namespace Jackardios\ScoutQueryWizard\Tests\Scout;
+namespace Jackardios\ScoutQueryWizard\Tests\Feature\Scout;
 
 use Illuminate\Http\Request;
 use Jackardios\QueryWizard\Enums\SortDirection;
@@ -11,7 +11,7 @@ use Jackardios\ScoutQueryWizard\Handlers\Sorts\SortsByField;
 use Jackardios\ScoutQueryWizard\ScoutQueryWizard;
 use Jackardios\ScoutQueryWizard\Tests\Concerns\AssertsCollectionSorting;
 use Jackardios\ScoutQueryWizard\Tests\TestCase;
-use Jackardios\ScoutQueryWizard\Tests\TestClasses\Models\TestModel;
+use Jackardios\ScoutQueryWizard\Tests\App\Models\TestModel;
 
 /**
  * @group scout

@@ -1,6 +1,6 @@
 <?php
 
-namespace Jackardios\ScoutQueryWizard\Tests\Scout;
+namespace Jackardios\ScoutQueryWizard\Tests\Feature\Scout;
 
 use Jackardios\ScoutQueryWizard\Tests\TestCase;
 use Illuminate\Database\Eloquent\Builder;
@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Jackardios\QueryWizard\Exceptions\InvalidFieldQuery;
 use Jackardios\ScoutQueryWizard\ScoutQueryWizard;
-use Jackardios\ScoutQueryWizard\Tests\TestClasses\Models\RelatedModel;
-use Jackardios\ScoutQueryWizard\Tests\TestClasses\Models\TestModel;
+use Jackardios\ScoutQueryWizard\Tests\App\Models\RelatedModel;
+use Jackardios\ScoutQueryWizard\Tests\App\Models\TestModel;
 
 /**
  * @group scout
