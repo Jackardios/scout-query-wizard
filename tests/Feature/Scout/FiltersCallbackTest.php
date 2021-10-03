@@ -35,8 +35,8 @@ class FiltersCallbackTest extends TestCase
                 'callback' => $this->models->first()->name,
             ])
             ->setAllowedFilters(
-                new FiltersCallback('callback', function (ScoutQueryHandler $queryHandler, Builder $query, $value) {
-                    $query->where('name', $value);
+                new FiltersCallback('callback', function (ScoutQueryHandler $queryHandler, Builder $queryBuilder, $value) {
+                    $queryBuilder->where('name', $value);
                 })
             )
             ->build()
@@ -59,9 +59,9 @@ class FiltersCallbackTest extends TestCase
         $this->assertCount(1, $models);
     }
 
-    public function filterCallback(ScoutQueryHandler $queryHandler, Builder $query, $value): void
+    public function filterCallback(ScoutQueryHandler $queryHandler, Builder $queryBuilder, $value): void
     {
-        $query->where('name', $value);
+        $queryBuilder->where('name', $value);
     }
 
     protected function createQueryFromFilterRequest(array $filters): ScoutQueryWizard

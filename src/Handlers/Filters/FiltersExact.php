@@ -28,26 +28,26 @@ class FiltersExact extends AbstractScoutFilter
         $this->withRelationConstraint = $value;
     }
 
-    public function handle($queryHandler, $query, $value): void
+    public function handle($queryHandler, $queryBuilder, $value): void
     {
         $propertyName = $this->getPropertyName();
 
-        if ($this->withRelationConstraint && $this->isRelationProperty($query, $propertyName)) {
+        if ($this->withRelationConstraint && $this->isRelationProperty($queryBuilder, $propertyName)) {
             $this->addRelationConstraint($queryHandler, $value, $propertyName);
 
             return;
         }
 
         if (is_array($value)) {
-            $query->whereIn($propertyName, $value);
+            $queryBuilder->whereIn($propertyName, $value);
 
             return;
         }
 
-        $query->where($propertyName, $value);
+        $queryBuilder->where($propertyName, $value);
     }
 
-    protected function isRelationProperty(Builder $query, string $propertyName): bool
+    protected function isRelationProperty(Builder $queryBuilder, string $propertyName): bool
     {
         if (! Str::contains($propertyName, '.')) {
             return false;
@@ -55,11 +55,11 @@ class FiltersExact extends AbstractScoutFilter
 
         $firstRelationship = explode('.', $propertyName)[0];
 
-        if (! method_exists($query->model, $firstRelationship)) {
+        if (! method_exists($queryBuilder->model, $firstRelationship)) {
             return false;
         }
 
-        return is_a($query->model->{$firstRelationship}(), Relation::class);
+        return is_a($queryBuilder->model->{$firstRelationship}(), Relation::class);
     }
 
     protected function addRelationConstraint(ScoutQueryHandler $queryHandler, $value, string $propertyName): void

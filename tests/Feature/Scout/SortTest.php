@@ -165,9 +165,9 @@ class SortTest extends TestCase
     public function it_allows_default_custom_sort_class_parameter(): void
     {
         $sortClass = new class('custom_name') extends AbstractScoutSort {
-            public function handle($queryHandler, $query, string $direction): void
+            public function handle($queryHandler, $queryBuilder, string $direction): void
             {
-                $query->orderBy('name', $direction);
+                $queryBuilder->orderBy('name', $direction);
             }
         };
 
@@ -200,9 +200,9 @@ class SortTest extends TestCase
     public function it_allows_multiple_default_sort_parameters(): void
     {
         $sortClass = new class('custom_name') extends AbstractScoutSort {
-            public function handle($queryHandler, $query, string $direction): void
+            public function handle($queryHandler, $queryBuilder, string $direction): void
             {
-                $query->orderBy('name', $direction);
+                $queryBuilder->orderBy('name', $direction);
             }
         };
 
@@ -275,9 +275,9 @@ class SortTest extends TestCase
     public function it_can_sort_by_a_custom_sort_class(): void
     {
         $sortClass = new class('custom_name') extends AbstractScoutSort {
-            public function handle($queryHandler, $query, string $direction): void
+            public function handle($queryHandler, $queryBuilder, string $direction): void
             {
-                $query->orderBy('name', $direction);
+                $queryBuilder->orderBy('name', $direction);
             }
         };
 
@@ -363,9 +363,9 @@ class SortTest extends TestCase
     public function the_default_direction_of_an_allow_sort_can_be_set(): void
     {
         $sortClass = new class('custom_name') extends AbstractScoutSort {
-            public function handle($queryHandler, $query, string $direction): void
+            public function handle($queryHandler, $queryBuilder, string $direction): void
             {
-                $query->orderBy('name', $direction);
+                $queryBuilder->orderBy('name', $direction);
             }
         };
 
