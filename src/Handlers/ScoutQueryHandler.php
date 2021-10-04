@@ -25,9 +25,9 @@ use Laravel\Scout\Builder;
  */
 class ScoutQueryHandler extends AbstractQueryHandler
 {
-    protected static string $baseFilterHandlerClass = AbstractScoutFilter::class;
-    protected static string $baseIncludeHandlerClass = AbstractEloquentInclude::class;
-    protected static string $baseSortHandlerClass = AbstractScoutSort::class;
+    protected static array $baseFilterHandlerClasses = [AbstractScoutFilter::class];
+    protected static array $baseIncludeHandlerClasses = [AbstractEloquentInclude::class];
+    protected static array $baseSortHandlerClasses = [AbstractScoutSort::class];
 
     /** @var callable[] */
     protected array $eloquentQueryCallbacks = [];
