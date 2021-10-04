@@ -34,9 +34,10 @@
         </report>
     </coverage>
     <php>
+        <env name="APP_ENV" value="testing"/>
         <env name="DB_CONNECTION" value="mysql"/>
         <env name="DB_USERNAME" value="root"/>
-        <env name="DB_DATABASE" value="laravel_query_wizard"/>
+        <env name="DB_DATABASE" value="scout_query_wizard"/>
         <env name="DB_HOST" value="127.0.0.1"/>
         <env name="DB_PORT" value="3306"/>
         <env name="SCOUT_DRIVER" value="collection"/>
