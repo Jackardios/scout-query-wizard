@@ -7,11 +7,11 @@ use Jackardios\QueryWizard\Handlers\Eloquent\Filters\FiltersScope as EloquentFil
 
 class FiltersScope extends AbstractScoutFilter
 {
-    public function handle($queryHandler, $query, $value): void
+    public function handle($queryHandler, $queryBuilder, $value): void
     {
         $eloquentFilter = EloquentFiltersScope::makeFromOther($this);
-        $queryHandler->addEloquentQueryCallback(function(EloquentBuilder $query) use ($eloquentFilter, $queryHandler, $value) {
-            $eloquentFilter->handle($queryHandler, $query, $value);
+        $queryHandler->addEloquentQueryCallback(function(EloquentBuilder $queryBuilder) use ($eloquentFilter, $queryHandler, $value) {
+            $eloquentFilter->handle($queryHandler, $queryBuilder, $value);
         });
     }
 }

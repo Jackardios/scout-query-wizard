@@ -9,20 +9,20 @@ class FiltersTrashed extends AbstractScoutFilter
         parent::__construct($propertyName, $alias, $default);
     }
 
-    public function handle($queryHandler, $query, $value): void
+    public function handle($queryHandler, $queryBuilder, $value): void
     {
         if ($value === 'with') {
-            $query->withTrashed();
+            $queryBuilder->withTrashed();
 
             return;
         }
 
         if ($value === 'only') {
-            $query->onlyTrashed();
+            $queryBuilder->onlyTrashed();
 
             return;
         }
 
-        $query->wheres['__soft_deleted'] = 0;
+        $queryBuilder->wheres['__soft_deleted'] = 0;
     }
 }
