@@ -34,49 +34,55 @@ class FilterTest extends TestCase
     /** @test */
     public function it_can_filter_models_by_exact_property_by_default(): void
     {
-        $models = $this
+        $expectedModel = $this->models->random();
+        $modelsResult = $this
             ->createQueryFromFilterRequest([
-                'name' => $this->models->first()->name,
+                'name' => $expectedModel->name,
             ])
             ->setAllowedFilters('name')
             ->build()
             ->get();
 
-        $this->assertCount(1, $models);
+        $this->assertCount(1, $modelsResult);
+        $this->assertEquals($expectedModel->name, $modelsResult->first()->name);
     }
 
     /** @test */
     public function it_can_filter_models_by_an_array_as_filter_value(): void
     {
-        $models = $this
+        $expectedModel = $this->models->random();
+        $modelsResult = $this
             ->createQueryFromFilterRequest([
-                'name' => ['first' => $this->models->first()->name],
+                'name' => ['first' => $expectedModel->name],
             ])
             ->setAllowedFilters('name')
             ->build()
             ->get();
 
-        $this->assertCount(1, $models);
+        $this->assertCount(1, $modelsResult);
+        $this->assertEquals($expectedModel->name, $modelsResult->first()->name);
     }
 
     /** @test */
     public function it_can_filter_partially_and_case_insensitive(): void
     {
-        $models = $this
+        $expectedModel = $this->models->random();
+        $modelsResult = $this
             ->createQueryFromFilterRequest([
-                'name' => strtoupper($this->models->first()->name),
+                'name' => strtoupper($expectedModel->name),
             ])
             ->setAllowedFilters('name')
             ->build()
             ->get();
 
-        $this->assertCount(1, $models);
+        $this->assertCount(1, $modelsResult);
+        $this->assertEquals($expectedModel->name, $modelsResult->first()->name);
     }
 
     /** @test */
     public function it_can_filter_models_and_return_an_empty_collection(): void
     {
-        $models = $this
+        $modelsResult = $this
             ->createQueryFromFilterRequest([
                 'name' => 'None existing first name',
             ])
@@ -84,14 +90,18 @@ class FilterTest extends TestCase
             ->build()
             ->get();
 
-        $this->assertCount(0, $models);
+        $this->assertCount(0, $modelsResult);
     }
 
     /** @test */
     public function it_can_filter_a_custom_base_query_with_select(): void
     {
+        $expectedModel = TestModel::query()
+            ->select(['id', 'name'])
+            ->find($this->models->random()->id);
+
         $request = new Request([
-            'filter' => ['name' => $this->models->first()->name],
+            'filter' => ['name' => $expectedModel->name],
         ]);
 
         $resultModel = ScoutQueryWizard::for(TestModel::search(), $request)
@@ -100,10 +110,6 @@ class FilterTest extends TestCase
             })
             ->setAllowedFilters('name', 'id')
             ->build()
-            ->first();
-
-        $expectedModel = TestModel::select('id', 'name')
-            ->where('name', '=', $this->models->first()->name)
             ->first();
 
         $this->assertModelsAttributesEqual($expectedModel, $resultModel);
@@ -127,26 +133,24 @@ class FilterTest extends TestCase
     /** @test */
     public function it_can_filter_and_match_results_by_exact_property(): void
     {
-        $testModel = TestModel::first();
-
-        $models = TestModel::where('id', $testModel->id)
-            ->get();
+        $expectedModel = $this->models->random();
 
         $modelsResult = $this
             ->createQueryFromFilterRequest([
-                'id' => $testModel->id,
+                'id' => $expectedModel->id,
             ])
             ->setAllowedFilters(new FiltersExact('id'))
             ->build()
             ->get();
 
-        $this->assertEquals($modelsResult, $models);
+        $this->assertCount(1, $modelsResult);
+        $this->assertEquals($expectedModel->id, $modelsResult->first()->id);
     }
 
     /** @test */
     public function it_can_filter_and_reject_results_by_exact_property(): void
     {
-        $testModel = TestModel::create(['name' => 'John Testing Doe']);
+        TestModel::create(['name' => 'John Testing Doe']);
 
         $modelsResult = $this
             ->createQueryFromFilterRequest([
@@ -162,7 +166,7 @@ class FilterTest extends TestCase
     /** @test */
     public function it_can_filter_results_by_scope(): void
     {
-        $testModel = TestModel::create(['name' => 'John Testing Doe']);
+        $expectedModel = TestModel::create(['name' => 'John Testing Doe']);
 
         $modelsResult = $this
             ->createQueryFromFilterRequest(['named' => 'John Testing Doe'])
@@ -171,13 +175,14 @@ class FilterTest extends TestCase
             ->get();
 
         $this->assertCount(1, $modelsResult);
+        $this->assertEquals($expectedModel->id, $modelsResult->first()->id);
     }
 
     /** @test */
     public function it_can_filter_results_by_nested_relation_scope(): void
     {
-        $testModel = TestModel::create(['name' => 'John Testing Doe 234234']);
-        $testModel->relatedModels()->create(['name' => 'John\'s Post']);
+        $expectedModel = TestModel::create(['name' => 'John Testing Doe 234234']);
+        $expectedModel->relatedModels()->create(['name' => 'John\'s Post']);
 
         $modelsResult = $this
             ->createQueryFromFilterRequest(['relatedModels.named' => 'John\'s Post'])
@@ -186,6 +191,7 @@ class FilterTest extends TestCase
             ->get();
 
         $this->assertCount(1, $modelsResult);
+        $this->assertEquals($expectedModel->id, $modelsResult->first()->id);
     }
 
     /** @test */
@@ -205,7 +211,7 @@ class FilterTest extends TestCase
     /** @test */
     public function it_can_filter_results_by_regular_and_type_hinted_scope(): void
     {
-        TestModel::create(['id' => 1000, 'name' => 'John Testing Doe']);
+        $expectedModel = TestModel::create(['id' => 1000, 'name' => 'John Testing Doe']);
 
         $modelsResult = $this
             ->createQueryFromFilterRequest(['user_info' => ['id' => '1000', 'name' => 'John Testing Doe']])
@@ -214,6 +220,7 @@ class FilterTest extends TestCase
             ->get();
 
         $this->assertCount(1, $modelsResult);
+        $this->assertEquals($expectedModel->id, $modelsResult->first()->id);
     }
 
     /** @test */
@@ -221,7 +228,7 @@ class FilterTest extends TestCase
     {
         Carbon::setTestNow(Carbon::parse('2016-05-05'));
 
-        $testModel = TestModel::create(['name' => 'John Testing Doe']);
+        $expectedModel = TestModel::create(['name' => 'John Testing Doe']);
 
         $modelsResult = $this
             ->createQueryFromFilterRequest(['created_between' => '2016-01-01,2017-01-01'])
@@ -230,6 +237,7 @@ class FilterTest extends TestCase
             ->get();
 
         $this->assertCount(1, $modelsResult);
+        $this->assertEquals($expectedModel->id, $modelsResult->first()->id);
     }
 
     /** @test */
@@ -237,7 +245,7 @@ class FilterTest extends TestCase
     {
         Carbon::setTestNow(Carbon::parse('2016-05-05'));
 
-        $testModel = TestModel::create(['name' => 'John Testing Doe']);
+        $expectedModel = TestModel::create(['name' => 'John Testing Doe']);
 
         $modelsResult = $this
             ->createQueryFromFilterRequest(['created_between' => ['start' => '2016-01-01', 'end' => '2017-01-01']])
@@ -246,12 +254,13 @@ class FilterTest extends TestCase
             ->get();
 
         $this->assertCount(1, $modelsResult);
+        $this->assertEquals($expectedModel->id, $modelsResult->first()->id);
     }
 
     /** @test */
     public function it_can_filter_results_by_a_custom_filter_class(): void
     {
-        $testModel = $this->models->first();
+        $expectedModel = $this->models->random();
 
         $filterClass = new class('custom_name') extends AbstractScoutFilter {
             public function handle($queryHandler, $queryBuilder, $value): void
@@ -260,15 +269,16 @@ class FilterTest extends TestCase
             }
         };
 
-        $modelResult = $this
+        $modelsResult = $this
             ->createQueryFromFilterRequest([
-                'custom_name' => $testModel->name,
+                'custom_name' => $expectedModel->name,
             ])
             ->setAllowedFilters($filterClass)
             ->build()
-            ->first();
+            ->get();
 
-        $this->assertEquals($testModel->id, $modelResult->id);
+        $this->assertCount(1, $modelsResult);
+        $this->assertEquals($expectedModel->id, $modelsResult->first()->id);
     }
 
     /** @test */
