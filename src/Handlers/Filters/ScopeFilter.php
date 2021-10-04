@@ -3,9 +3,9 @@
 namespace Jackardios\ScoutQueryWizard\Handlers\Filters;
 
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Jackardios\QueryWizard\Handlers\Eloquent\Filters\FiltersScope as EloquentFiltersScope;
+use Jackardios\QueryWizard\Handlers\Eloquent\Filters\ScopeFilter as EloquentFiltersScope;
 
-class FiltersScope extends AbstractScoutFilter
+class ScopeFilter extends AbstractScoutFilter
 {
     public function handle($queryHandler, $queryBuilder, $value): void
     {

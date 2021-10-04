@@ -2,7 +2,7 @@
 
 namespace Jackardios\ScoutQueryWizard\Handlers\Sorts;
 
-class SortsByField extends AbstractScoutSort
+class SortByField extends AbstractScoutSort
 {
     public function handle($queryHandler, $queryBuilder, string $direction): void
     {

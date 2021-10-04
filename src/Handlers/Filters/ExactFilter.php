@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 
-class FiltersExact extends AbstractScoutFilter
+class ExactFilter extends AbstractScoutFilter
 {
     protected bool $withRelationConstraint = true;
 

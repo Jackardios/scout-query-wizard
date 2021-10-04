@@ -2,7 +2,7 @@
 
 namespace Jackardios\ScoutQueryWizard\Handlers\Filters;
 
-class FiltersTrashed extends AbstractScoutFilter
+class TrashedFilter extends AbstractScoutFilter
 {
     public function __construct(string $propertyName = "trashed", ?string $alias = null, $default = null)
     {

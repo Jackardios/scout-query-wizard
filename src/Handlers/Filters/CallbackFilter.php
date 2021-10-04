@@ -2,7 +2,7 @@
 
 namespace Jackardios\ScoutQueryWizard\Handlers\Filters;
 
-class FiltersCallback extends AbstractScoutFilter
+class CallbackFilter extends AbstractScoutFilter
 {
     /**
      * @var callable a PHP callback of the following signature:

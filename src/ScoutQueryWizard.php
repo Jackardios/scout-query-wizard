@@ -12,8 +12,8 @@ use Jackardios\QueryWizard\Concerns\HandlesSorts;
 use Jackardios\QueryWizard\Handlers\Eloquent\Includes\AbstractEloquentInclude;
 use Jackardios\QueryWizard\Handlers\Eloquent\Includes\IncludedCount;
 use Jackardios\QueryWizard\Handlers\Eloquent\Includes\IncludedRelationship;
-use Jackardios\ScoutQueryWizard\Handlers\Filters\FiltersExact;
-use Jackardios\ScoutQueryWizard\Handlers\Sorts\SortsByField;
+use Jackardios\ScoutQueryWizard\Handlers\Filters\ExactFilter;
+use Jackardios\ScoutQueryWizard\Handlers\Sorts\SortByField;
 use Jackardios\ScoutQueryWizard\Handlers\ScoutQueryHandler;
 use Laravel\Scout\Builder;
 
@@ -51,9 +51,9 @@ class ScoutQueryWizard extends AbstractQueryWizard
         return $this;
     }
 
-    public function makeDefaultFilterHandler(string $filterName): FiltersExact
+    public function makeDefaultFilterHandler(string $filterName): ExactFilter
     {
-        return new FiltersExact($filterName);
+        return new ExactFilter($filterName);
     }
 
     /**
@@ -70,8 +70,8 @@ class ScoutQueryWizard extends AbstractQueryWizard
         return new IncludedRelationship($includeName);
     }
 
-    public function makeDefaultSortHandler(string $sortName): SortsByField
+    public function makeDefaultSortHandler(string $sortName): SortByField
     {
-        return new SortsByField($sortName);
+        return new SortByField($sortName);
     }
 }

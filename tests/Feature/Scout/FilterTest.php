@@ -10,8 +10,8 @@ use Illuminate\Support\Collection;
 use Jackardios\QueryWizard\Exceptions\InvalidFilterQuery;
 use Jackardios\ScoutQueryWizard\Handlers\Filters\AbstractScoutFilter;
 use Jackardios\ScoutQueryWizard\ScoutQueryWizard;
-use Jackardios\ScoutQueryWizard\Handlers\Filters\FiltersExact;
-use Jackardios\ScoutQueryWizard\Handlers\Filters\FiltersScope;
+use Jackardios\ScoutQueryWizard\Handlers\Filters\ExactFilter;
+use Jackardios\ScoutQueryWizard\Handlers\Filters\ScopeFilter;
 use Jackardios\ScoutQueryWizard\Tests\App\Models\TestModel;
 
 /**
@@ -139,7 +139,7 @@ class FilterTest extends TestCase
             ->createQueryFromFilterRequest([
                 'id' => $expectedModel->id,
             ])
-            ->setAllowedFilters(new FiltersExact('id'))
+            ->setAllowedFilters(new ExactFilter('id'))
             ->build()
             ->get();
 
@@ -156,7 +156,7 @@ class FilterTest extends TestCase
             ->createQueryFromFilterRequest([
                 'name' => ' Testing ',
             ])
-            ->setAllowedFilters(new FiltersExact('name'))
+            ->setAllowedFilters(new ExactFilter('name'))
             ->build()
             ->get();
 
@@ -170,7 +170,7 @@ class FilterTest extends TestCase
 
         $modelsResult = $this
             ->createQueryFromFilterRequest(['named' => 'John Testing Doe'])
-            ->setAllowedFilters(new FiltersScope('named'))
+            ->setAllowedFilters(new ScopeFilter('named'))
             ->build()
             ->get();
 
@@ -186,7 +186,7 @@ class FilterTest extends TestCase
 
         $modelsResult = $this
             ->createQueryFromFilterRequest(['relatedModels.named' => 'John\'s Post'])
-            ->setAllowedFilters(new FiltersScope('relatedModels.named'))
+            ->setAllowedFilters(new ScopeFilter('relatedModels.named'))
             ->build()
             ->get();
 
@@ -201,7 +201,7 @@ class FilterTest extends TestCase
 
         $modelsResult = $this
             ->createQueryFromFilterRequest(['user' => 1])
-            ->setAllowedFilters(new FiltersScope('user'))
+            ->setAllowedFilters(new ScopeFilter('user'))
             ->build()
             ->get();
 
@@ -215,7 +215,7 @@ class FilterTest extends TestCase
 
         $modelsResult = $this
             ->createQueryFromFilterRequest(['user_info' => ['id' => '1000', 'name' => 'John Testing Doe']])
-            ->setAllowedFilters(new FiltersScope('user_info'))
+            ->setAllowedFilters(new ScopeFilter('user_info'))
             ->build()
             ->get();
 
@@ -232,7 +232,7 @@ class FilterTest extends TestCase
 
         $modelsResult = $this
             ->createQueryFromFilterRequest(['created_between' => '2016-01-01,2017-01-01'])
-            ->setAllowedFilters(new FiltersScope('created_between'))
+            ->setAllowedFilters(new ScopeFilter('created_between'))
             ->build()
             ->get();
 
@@ -249,7 +249,7 @@ class FilterTest extends TestCase
 
         $modelsResult = $this
             ->createQueryFromFilterRequest(['created_between' => ['start' => '2016-01-01', 'end' => '2017-01-01']])
-            ->setAllowedFilters(new FiltersScope('created_between'))
+            ->setAllowedFilters(new ScopeFilter('created_between'))
             ->build()
             ->get();
 
@@ -291,7 +291,7 @@ class FilterTest extends TestCase
             ->createQueryFromFilterRequest([
                 'name' => 'abcdef',
             ])
-            ->setAllowedFilters(new FiltersExact('name'), 'id')
+            ->setAllowedFilters(new ExactFilter('name'), 'id')
             ->build()
             ->get();
 
@@ -309,7 +309,7 @@ class FilterTest extends TestCase
             ->createQueryFromFilterRequest([
                 'name' => 'abcdef',
             ])
-            ->setAllowedFilters([new FiltersExact('name'), 'id'])
+            ->setAllowedFilters([new ExactFilter('name'), 'id'])
             ->build()
             ->get();
 
@@ -328,7 +328,7 @@ class FilterTest extends TestCase
                 'name' => 'abcdef',
                 'id' => "1,{$model1->id}",
             ])
-            ->setAllowedFilters(new FiltersExact('name'), 'id')
+            ->setAllowedFilters(new ExactFilter('name'), 'id')
             ->build()
             ->get();
 
@@ -382,7 +382,7 @@ class FilterTest extends TestCase
     /** @test */
     public function it_sets_property_column_name_to_property_name_by_default(): void
     {
-        $filter = new FiltersExact('property_name');
+        $filter = new ExactFilter('property_name');
 
         $this->assertEquals($filter->getName(), $filter->getPropertyName());
     }
@@ -390,7 +390,7 @@ class FilterTest extends TestCase
     /** @test */
     public function it_resolves_queries_using_property_column_name(): void
     {
-        $filter = new FiltersExact('name', 'nickname');
+        $filter = new ExactFilter('name', 'nickname');
 
         TestModel::create(['name' => 'abcdef']);
 
@@ -409,7 +409,7 @@ class FilterTest extends TestCase
     public function it_can_filter_using_boolean_flags(): void
     {
         TestModel::query()->update(['is_visible' => true]);
-        $filter = new FiltersExact('is_visible');
+        $filter = new ExactFilter('is_visible');
 
         $models = $this
             ->createQueryFromFilterRequest(['is_visible' => 'false'])
@@ -427,7 +427,7 @@ class FilterTest extends TestCase
         $model1 = TestModel::create(['name' => 'UniqueJohn Doe']);
         $model2 = TestModel::create(['name' => 'UniqueJohn Deer']);
 
-        $filter = (new FiltersExact('name'))->default('UniqueJohn Doe');
+        $filter = (new ExactFilter('name'))->default('UniqueJohn Doe');
 
         $models = $this
             ->createQueryFromFilterRequest([])
@@ -445,7 +445,7 @@ class FilterTest extends TestCase
         $model1 = TestModel::create(['name' => 'UniqueJohn UniqueDoe']);
         $model2 = TestModel::create(['name' => 'UniqueJohn Deer']);
 
-        $filter = (new FiltersExact('name'))->default('UniqueJohn Deer');
+        $filter = (new ExactFilter('name'))->default('UniqueJohn Deer');
 
         $models = $this
             ->createQueryFromFilterRequest([

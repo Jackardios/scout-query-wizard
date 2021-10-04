@@ -7,7 +7,7 @@ use Laravel\Scout\Builder;
 use Illuminate\Http\Request;
 use Jackardios\ScoutQueryWizard\ScoutQueryWizard;
 use Jackardios\ScoutQueryWizard\Handlers\ScoutQueryHandler;
-use Jackardios\ScoutQueryWizard\Handlers\Filters\FiltersCallback;
+use Jackardios\ScoutQueryWizard\Handlers\Filters\CallbackFilter;
 use Jackardios\ScoutQueryWizard\Tests\App\Models\TestModel;
 
 /**
@@ -35,7 +35,7 @@ class FiltersCallbackTest extends TestCase
                 'callback' => $this->models->first()->name,
             ])
             ->setAllowedFilters(
-                new FiltersCallback('callback', function (ScoutQueryHandler $queryHandler, Builder $queryBuilder, $value) {
+                new CallbackFilter('callback', function (ScoutQueryHandler $queryHandler, Builder $queryBuilder, $value) {
                     $queryBuilder->where('name', $value);
                 })
             )
@@ -52,7 +52,7 @@ class FiltersCallbackTest extends TestCase
             ->createQueryFromFilterRequest([
                 'callback' => $this->models->first()->name,
             ])
-            ->setAllowedFilters(new FiltersCallback('callback', [$this, 'filterCallback']))
+            ->setAllowedFilters(new CallbackFilter('callback', [$this, 'filterCallback']))
             ->build()
             ->get();
 

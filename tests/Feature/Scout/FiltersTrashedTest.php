@@ -6,7 +6,7 @@ use Jackardios\ScoutQueryWizard\Tests\TestCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Jackardios\ScoutQueryWizard\ScoutQueryWizard;
-use Jackardios\ScoutQueryWizard\Handlers\Filters\FiltersTrashed;
+use Jackardios\ScoutQueryWizard\Handlers\Filters\TrashedFilter;
 use Jackardios\ScoutQueryWizard\Tests\App\Models\SoftDeleteModel;
 
 /**
@@ -36,7 +36,7 @@ class FiltersTrashedTest extends TestCase
             ->createQueryFromFilterRequest([
                 'trashed' => '',
             ])
-            ->setAllowedFilters(new FiltersTrashed())
+            ->setAllowedFilters(new TrashedFilter())
             ->build()
             ->get();
 
@@ -50,7 +50,7 @@ class FiltersTrashedTest extends TestCase
             ->createQueryFromFilterRequest([
                 'trashed' => 'only',
             ])
-            ->setAllowedFilters(new FiltersTrashed())
+            ->setAllowedFilters(new TrashedFilter())
             ->build()
             ->get();
 
@@ -64,7 +64,7 @@ class FiltersTrashedTest extends TestCase
             ->createQueryFromFilterRequest([
                 'trashed' => 'with',
             ])
-            ->setAllowedFilters(new FiltersTrashed())
+            ->setAllowedFilters(new TrashedFilter())
             ->build()
             ->get();
 

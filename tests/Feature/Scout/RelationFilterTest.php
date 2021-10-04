@@ -6,7 +6,7 @@ use Jackardios\ScoutQueryWizard\Tests\TestCase;
 
 use Illuminate\Http\Request;
 use Jackardios\ScoutQueryWizard\ScoutQueryWizard;
-use Jackardios\ScoutQueryWizard\Handlers\Filters\FiltersExact;
+use Jackardios\ScoutQueryWizard\Handlers\Filters\ExactFilter;
 use Jackardios\ScoutQueryWizard\Tests\App\Models\TestModel;
 
 /**
@@ -53,7 +53,7 @@ class RelationFilterTest extends TestCase
             ->createQueryFromFilterRequest([
                 'relatedModels.nestedRelatedModels.name' => 'test0,test1',
             ])
-            ->setAllowedFilters(new FiltersExact('relatedModels.nestedRelatedModels.name'))
+            ->setAllowedFilters(new ExactFilter('relatedModels.nestedRelatedModels.name'))
             ->build()
             ->get();
 
@@ -82,7 +82,7 @@ class RelationFilterTest extends TestCase
             ->createQueryFromFilterRequest([
                 'relatedModels.nestedRelatedModels.name' => 'test1',
             ])
-            ->setAllowedFilters(new FiltersExact('relatedModels.nestedRelatedModels.name'))
+            ->setAllowedFilters(new ExactFilter('relatedModels.nestedRelatedModels.name'))
             ->build()
             ->get();
 
@@ -98,8 +98,8 @@ class RelationFilterTest extends TestCase
                 'relatedModels.nestedRelatedModels.name' => 'test0',
             ])
             ->setAllowedFilters(
-                new FiltersExact('relatedModels.name'),
-                new FiltersExact('relatedModels.nestedRelatedModels.name')
+                new ExactFilter('relatedModels.name'),
+                new ExactFilter('relatedModels.nestedRelatedModels.name')
             )
             ->build()
             ->get();
@@ -118,7 +118,7 @@ class RelationFilterTest extends TestCase
                     return $model->relatedModels->pluck('id');
                 })->flatten()->all(),
             ])
-            ->setAllowedFilters(new FiltersExact('relatedModels.id'))
+            ->setAllowedFilters(new ExactFilter('relatedModels.id'))
             ->build()
             ->get();
 
@@ -135,7 +135,7 @@ class RelationFilterTest extends TestCase
             ->createQueryFromFilterRequest([
                 'relatedModels.nestedRelatedModels.name' => ' test ',
             ])
-            ->setAllowedFilters(new FiltersExact('relatedModels.nestedRelatedModels.name'))
+            ->setAllowedFilters(new ExactFilter('relatedModels.nestedRelatedModels.name'))
             ->build()
             ->get();
 
