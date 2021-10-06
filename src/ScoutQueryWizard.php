@@ -10,10 +10,10 @@ use Jackardios\QueryWizard\Concerns\HandlesFilters;
 use Jackardios\QueryWizard\Concerns\HandlesIncludes;
 use Jackardios\QueryWizard\Concerns\HandlesSorts;
 use Jackardios\QueryWizard\Handlers\Eloquent\Includes\AbstractEloquentInclude;
-use Jackardios\QueryWizard\Handlers\Eloquent\Includes\IncludedCount;
-use Jackardios\QueryWizard\Handlers\Eloquent\Includes\IncludedRelationship;
+use Jackardios\QueryWizard\Handlers\Eloquent\Includes\CountInclude;
+use Jackardios\QueryWizard\Handlers\Eloquent\Includes\RelationshipInclude;
 use Jackardios\ScoutQueryWizard\Handlers\Filters\ExactFilter;
-use Jackardios\ScoutQueryWizard\Handlers\Sorts\SortByField;
+use Jackardios\ScoutQueryWizard\Handlers\Sorts\FieldSort;
 use Jackardios\ScoutQueryWizard\Handlers\ScoutQueryHandler;
 use Laravel\Scout\Builder;
 
@@ -58,20 +58,20 @@ class ScoutQueryWizard extends AbstractQueryWizard
 
     /**
      * @param string $includeName
-     * @return IncludedRelationship|IncludedCount
+     * @return RelationshipInclude|CountInclude
      */
     public function makeDefaultIncludeHandler(string $includeName): AbstractEloquentInclude
     {
         $countSuffix = config('query-wizard.count_suffix');
         if (Str::endsWith($includeName, $countSuffix)) {
             $relation = Str::before($includeName, $countSuffix);
-            return new IncludedCount($relation, $includeName);
+            return new CountInclude($relation, $includeName);
         }
-        return new IncludedRelationship($includeName);
+        return new RelationshipInclude($includeName);
     }
 
-    public function makeDefaultSortHandler(string $sortName): SortByField
+    public function makeDefaultSortHandler(string $sortName): FieldSort
     {
-        return new SortByField($sortName);
+        return new FieldSort($sortName);
     }
 }

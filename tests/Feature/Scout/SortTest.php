@@ -7,7 +7,7 @@ use Jackardios\QueryWizard\Enums\SortDirection;
 use Jackardios\QueryWizard\Exceptions\InvalidSortQuery;
 use Jackardios\QueryWizard\Values\Sort;
 use Jackardios\ScoutQueryWizard\Handlers\Sorts\AbstractScoutSort;
-use Jackardios\ScoutQueryWizard\Handlers\Sorts\SortByField;
+use Jackardios\ScoutQueryWizard\Handlers\Sorts\FieldSort;
 use Jackardios\ScoutQueryWizard\ScoutQueryWizard;
 use Jackardios\ScoutQueryWizard\Tests\Concerns\AssertsCollectionSorting;
 use Jackardios\ScoutQueryWizard\Tests\TestCase;
@@ -69,7 +69,7 @@ class SortTest extends TestCase
     {
         $query = $this
             ->createQueryFromSortRequest('name-alias')
-            ->setAllowedSorts([new SortByField('name', 'name-alias')])
+            ->setAllowedSorts([new FieldSort('name', 'name-alias')])
             ->build();
 
         $this->assertEquals([
@@ -101,7 +101,7 @@ class SortTest extends TestCase
     {
         $query = $this
             ->createQueryFromSortRequest('-sketchy<>sort')
-            ->setAllowedSorts(new SortByField('name', 'sketchy<>sort'))
+            ->setAllowedSorts(new FieldSort('name', 'sketchy<>sort'))
             ->build();
 
         $this->assertEquals([
@@ -297,7 +297,7 @@ class SortTest extends TestCase
     /** @test */
     public function it_resolves_queries_using_property_column_name(): void
     {
-        $sort = new SortByField('name', 'nickname');
+        $sort = new FieldSort('name', 'nickname');
 
         $query = $this
             ->createQueryFromSortRequest('nickname')
@@ -316,7 +316,7 @@ class SortTest extends TestCase
     public function it_can_sort_descending_with_an_alias(): void
     {
         $query = $this->createQueryFromSortRequest('-exposed_property_name')
-            ->setAllowedSorts(new SortByField('name', 'exposed_property_name'))
+            ->setAllowedSorts(new FieldSort('name', 'exposed_property_name'))
             ->build();
 
         $this->assertEquals([
@@ -348,7 +348,7 @@ class SortTest extends TestCase
     {
         $query = $this->createQueryFromSortRequest('-joined')
             ->setDefaultSorts('name')
-            ->setAllowedSorts(new SortByField('created_at', 'joined'))
+            ->setAllowedSorts(new FieldSort('created_at', 'joined'))
             ->build();
 
         $this->assertEquals([

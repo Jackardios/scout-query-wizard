@@ -10,8 +10,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Jackardios\QueryWizard\Abstracts\Handlers\AbstractQueryHandler;
 use Jackardios\QueryWizard\Handlers\Eloquent\Includes\AbstractEloquentInclude;
-use Jackardios\QueryWizard\Handlers\Eloquent\Includes\IncludedCount;
-use Jackardios\QueryWizard\Handlers\Eloquent\Includes\IncludedRelationship;
+use Jackardios\QueryWizard\Handlers\Eloquent\Includes\CountInclude;
+use Jackardios\QueryWizard\Handlers\Eloquent\Includes\RelationshipInclude;
 use ReflectionClass;
 use Jackardios\QueryWizard\Exceptions\InvalidIncludeQuery;
 use Jackardios\ScoutQueryWizard\ScoutQueryWizard;
@@ -91,7 +91,7 @@ class IncludeTest extends TestCase
     {
         $models = $this
             ->createQueryFromIncludeRequest('include-alias')
-            ->setAllowedIncludes(new IncludedRelationship('relatedModels', 'include-alias'))
+            ->setAllowedIncludes(new RelationshipInclude('relatedModels', 'include-alias'))
             ->build()
             ->get();
 
@@ -142,7 +142,7 @@ class IncludeTest extends TestCase
         $models = $this
             ->createQueryFromIncludeRequest('nested-alias')
             ->setAllowedIncludes(
-                new IncludedRelationship('relatedModels.nestedRelatedModels', 'nested-alias')
+                new RelationshipInclude('relatedModels.nestedRelatedModels', 'nested-alias')
             )
             ->build()
             ->get();
@@ -362,8 +362,8 @@ class IncludeTest extends TestCase
 
         $models = ScoutQueryWizard::for(TestModel::search(), $request)
             ->setAllowedIncludes([
-                new IncludedCount('relatedModels', 'relatedModelsCount'),
-                new IncludedRelationship('otherRelatedModels', 'relationShipAlias'),
+                new CountInclude('relatedModels', 'relatedModelsCount'),
+                new RelationshipInclude('otherRelatedModels', 'relationShipAlias'),
             ])
             ->build()
             ->get();
@@ -423,7 +423,7 @@ class IncludeTest extends TestCase
             ->query(function(Builder $query) {
                 return $query->select('id', 'name');
             })
-            ->setAllowedIncludes(new IncludedCount('relatedModels', 'relatedModelsCount'))
+            ->setAllowedIncludes(new CountInclude('relatedModels', 'relatedModelsCount'))
             ->build()
             ->first();
 
